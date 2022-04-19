@@ -1,17 +1,19 @@
 import './App.css';
 import {useEffect, useState} from "react";
 
-const loadFromLocalStorage = (key) =>{
-  const data = localStorage.getItem(key);
-  if (data !== null){
-    return JSON.parse(data);
-  }
-  return []
-}
-
-const saveToLocalStorage = (key, data) => {
-  localStorage.setItem(key, JSON.stringify(data))
-}
+// const loadFromLocalStorage = (key) =>{
+//   const data = localStorage.getItem(key);
+//   if (data !== null){
+//     return JSON.parse(data);
+//   }
+//   return []
+// }
+//
+// const saveToLocalStorage = (key, data) => {
+//   localStorage.setItem(key, JSON.stringify(data))
+// }
+const loadFromLocalStorage = (key) => localStorage.getItem(key) === null ? [] : JSON.parse(localStorage.getItem(key));
+const saveToLocalStorage = (key, data) => localStorage.setItem(key, JSON.stringify(data))
 
 const uuidGen = () => Math.max(...(loadFromLocalStorage('tds').map(e => e.id)), 0) + 1;
 
@@ -29,14 +31,14 @@ function App() {
 
   const handleKeyUp = (event) => {
     if(event.key === 'Enter'){
-      const newTask= [...tasks, {
+      const newTask= [{
         name: value,
         id: uuidGen(),
         status: false
-      }]
+      }, ...tasks]
       setTasks(newTask)
       setValue('');
-      saveToLocalStorage('tds', newTask)
+      saveToLocalStorage('tds', newTask);
     }
   }
 
@@ -52,7 +54,10 @@ function App() {
 
 
   function handleDeleteTask(id) {
-    setTasks(tasks.filter(task => task.id !== id))
+
+    const newTasks = tasks.filter(task => task.id !== id)
+    setTasks(newTasks)
+    saveToLocalStorage('tds', newTasks)
   }
 
   return (
