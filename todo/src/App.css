@@ -36,3 +36,43 @@
     transform: rotate(360deg);
   }
 }
+
+.status {
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 1px solid black;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.active {
+  background: red;
+}
+
+.done {
+  background: green;
+}
+
+.ul {
+  list-style: none;
+  text-align: center;
+  padding-left: 0;
+}
+
+.todo-item {
+  display: flex;
+  align-items: stretch;
+  line-height: 21px;
+  justify-content: center;
+}
+
+.todo-item button {
+  opacity: 0;
+  transition: opacity 400ms;
+}
+
+.todo-item:hover button {
+  opacity: 1;
+}
